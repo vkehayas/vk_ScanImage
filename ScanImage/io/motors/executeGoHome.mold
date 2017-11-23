@@ -1,0 +1,75 @@
+%% function out=executeGoHome
+%   Returns motor to cached initial position, e.g. following a stack acquisition
+%% SYNTAX
+%   out = executeGoHome
+%       out: 0 if successful, 1 if failed
+%% NOTES
+%   Because returning home is a critical operation, an MP285 error condition is triggered on any type of failure, to ensure the user is made aware of the non-home position. -- Vijay Iyer 10/10/08
+%
+%% CHANGES
+%   VI100608A: Defer motor velocity changes to setMotorPosition() -- Vijay Iyer 10/06/08
+%   VI100908A: Handle otherwise non-handled errors via MP285Error -- Vijay Iyer 10/09/08
+%   VI101008A: Only update absX/Y/ZPosition following successful return home. -- Vijay Iyer 10/10/08
+%   VI101008B: Defer updateRelativeMotorPosition() to setMotorPosition() -- Vijay Iyer 10/10/08
+%   VI101008C: Force MP285Error following incomplete/imprecise moves that don't otherwise automatically trigger an error. -- Vijay Iyer 10/10/08
+%   VI101008D: Replace output argument 'moved' with 'out' to be more generic error reporter. Use convention that 1 implies error. -- Vijay Iyer 10/10/08
+%   VI101208A: Don't go home if there's a pre-existing error -- Vijay Iyer 10/12/08
+%   VI110308A: Case where motor is off is not an error condition -- Vijay Iyer 11/3/08
+%% ************************************************************
+function out=executeGoHome
+out = 1; %VI101008D
+
+errMsg = 'Unknown failure attempting to return home'; %default error message
+
+global state
+if ~state.motor.motorOn
+    out=0; %VI110308A
+    return 
+end
+if state.motor.errorCond %VI101208A
+    fprintf(2,'WARNING (%s): Existing MP-285 error prevented attempt to return home\n',mfilename);
+    return;
+end
+
+try
+    if state.acq.numberOfZSlices > 1 && state.acq.returnHome
+        if length(state.internal.initialMotorPosition) ~= 3
+            MP285Error('Attempted to return to initial position, but initial position is corrupted.');
+            return;           
+        else
+            %setStatusString('Moving to home...');
+            
+            %%%VI101008A%%%%%%%%%%%
+            newPos = state.internal.initialMotorPosition; %VI101008A
+            %state.motor.absXPosition=state.internal.initialMotorPosition(1);
+            %state.motor.absYPosition=state.internal.initialMotorPosition(2);
+            %state.motor.absZPosition=state.internal.initialMotorPosition(3);
+            %%%%%%%%%%%%%%%%%%%%%%%%%%%
+            
+            %MP285SetVelocity(state.motor.velocityFast); %VI100608A
+            
+            if setMotorPosition(newPos) %VI101008C
+                if ~state.motor.errorCond 
+                    errMsg = 'Failure during return move to initial position';
+                    error('dummy'); %Force to catch block
+                end
+                return; %already in an error condition
+            end
+            
+            %MP285SetVelocity(state.motor.velocitySlow); %VI100608A
+            %updateRelativeMotorPosition; %VI101008B
+            
+            %moved=1; %VI101008D            
+            out = 0; %VI101008D
+            
+            %setStatusString('Returned Home');
+        end
+    else %no need to go anywhere!
+        out = 0; %VI101008D: If no need to move, report function as successful
+        return;
+    end
+catch
+    %moved=0; %VI101008D
+    %disp('executeGoHome: Failed.');
+    MP285Error(errMsg); %VI100908A 
+end
