@@ -3,17 +3,13 @@
 line 501
 -oldDist = pdist(oldCoords);
 +oldDist = dist(oldCoords); % EDIT VK, 21/03/2014
-```
-```diff
 line 561
 -oldDist = pdist(oldCoords);
 +oldDist = dist(oldCoords); % EDIT VK, 28/03/2014
-```
-
 line 826
-`newAnnotations(i).correlationID = ia_getNewCorrelationID;`
-with
-`newAnnotations(i).correlationID = ia_getNewCorrelationId;   % EDIT VK: 25/11/2014`
+-newAnnotations(i).correlationID = ia_getNewCorrelationID;
++newAnnotations(i).correlationID = ia_getNewCorrelationId;   % EDIT VK: 25/11/2014
+```
 
 line 976
 `newAnnotations(i).correlationID = ia_getNewCorrelationID;`
