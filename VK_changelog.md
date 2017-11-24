@@ -122,14 +122,12 @@ annotate_Callback(hObject);
 **stackBrowswerControl.m**
 ```diff
 line 112
-'defaultFilter', 'median', 'Class', 'char', 'Gui', 'defaultFilter', ...
-with
-'defaultFilter', 'none', 'Class', 'char', 'Gui', 'defaultFilter', ...
+-'defaultFilter', 'median', 'Class', 'char', 'Gui', 'defaultFilter', ...
++'defaultFilter', 'none', 'Class', 'char', 'Gui', 'defaultFilter', ...
 
 line 133
-setLocal(progmanager, hObject, 'defaultFilter', 'median');
-with
-setLocal(progmanager, hObject, 'defaultFilter', 'none');
+-setLocal(progmanager, hObject, 'defaultFilter', 'median');
++setLocal(progmanager, hObject, 'defaultFilter', 'none');
 ```
 
 **ia_updatePhotometryValues.m,**
