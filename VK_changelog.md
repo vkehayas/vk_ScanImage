@@ -116,7 +116,8 @@ feval(getGlobal(progmanager, 'saveMenuItem_Callback', 'StackBrowserControl', 'st
 getGlobal(progmanager, 'hObject', 'StackBrowserControl', 'stackBrowserControl'), hObject)
 
 case 32 % EDIT VK: 09/05/2014
-annotate_Callback(hObject);```
+annotate_Callback(hObject);
+```
 
 **stackBrowswerControl.m**
 ```diff
