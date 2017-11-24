@@ -167,9 +167,9 @@ line 78-79 (Replace hard-coded limits)
 +setLocal(progmanager, hObject, 'whiteValue', 65000);
 
 -if getLocal(progmanager, hObject, 'blackValue') > 2999
-setLocal(progmanager, hObject, 'blackValue', 2999);
+-setLocal(progmanager, hObject, 'blackValue', 2999);
 +if getLocal(progmanager, hObject, 'blackValue') > 64999
-setLocal(progmanager, hObject, 'blackValue', 64999);
++setLocal(progmanager, hObject, 'blackValue', 64999);
 
 VK170906B: line 477-478
 Replace permitted range:
