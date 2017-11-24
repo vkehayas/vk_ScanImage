@@ -163,9 +163,9 @@ Set default ’normalizationMethod’ to 1 (=mean)
 VK170906A
 line 78-79 (Replace hard-coded limits)
 -if getLocal(progmanager, hObject, 'whiteValue') > 3000
-setLocal(progmanager, hObject, 'whiteValue', 3000);
+-setLocal(progmanager, hObject, 'whiteValue', 3000);
 +if getLocal(progmanager, hObject, 'whiteValue') > 65000
-setLocal(progmanager, hObject, 'whiteValue', 65000);
++setLocal(progmanager, hObject, 'whiteValue', 65000);
 
 -if getLocal(progmanager, hObject, 'blackValue') > 2999
 setLocal(progmanager, hObject, 'blackValue', 2999);
