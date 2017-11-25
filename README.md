@@ -2,7 +2,7 @@
 
 This repository contains a forked version of ScanImage r3.5 with customizations
 of the spine analysis module `scim_spineAnalysis`. Detailed information on the
-changes made can be found inside the file `VK_changelog.txt`. Changes
+changes made can be found inside the file `VK_changelog.md`. Changes
 include:
 
 * The calculation of spine fluorescence intensity is performed for spine pixels above background.
